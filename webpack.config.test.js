@@ -7,7 +7,7 @@ module.exports = env => {
   const { ifProduction } = getIfUtils(env);
   const mode = ifProduction('production', 'development');
 
-  console.log(`>>> unicorns Test Code Webpack Environment; [mode: ${env.mode}]`);
+  console.log(`>>> enyo cli Test Code Webpack Environment; [mode: ${env.mode}]`);
 
   return {
     mode: mode,
@@ -49,8 +49,8 @@ module.exports = env => {
       ignored: /node_modules/
     },
     output: {
-      filename: 'unicorns-test-bundle.js',
-      sourceMapFilename: 'unicorns-test-bundle.js.map',
+      filename: 'enyo-cli-test-bundle.js',
+      sourceMapFilename: 'enyo-cli-test-bundle.js.map',
       path: path.resolve(__dirname, 'dist'),
       libraryTarget: 'commonjs'
     },
