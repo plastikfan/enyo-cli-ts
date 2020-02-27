@@ -1,6 +1,6 @@
 
 import { expect } from 'chai';
-import { mythical } from '../lib/index';
+import { mythical } from '../app/index';
 
 describe('unicorns are real', () => {
   context('What is the difference between a carrot and a unicorn', () => {

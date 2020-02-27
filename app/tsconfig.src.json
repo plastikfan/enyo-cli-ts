@@ -6,7 +6,7 @@
     ],
   },
   "include": [
-    "../lib/**/*"
+    "../app/**/*"
   ],
   "exclude": [
     "node_modules",

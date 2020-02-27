@@ -16,8 +16,8 @@
     "__b:dev:src": "webpack -d --env.mode development --config webpack.config.src.js",
     "__b:dev:test": "webpack -d --env.mode development --config webpack.config.test.js",
     "exec": "node ./dist/enyo-cli-bundle.js",
-    "lint": "(npx semistandard --verbose | npx snazzy) && npx eslint -c .eslintrc.js \"./lib/**/*.ts\" \"./tests/**/*.ts\" --no-error-on-unmatched-pattern",
-    "fix": "npx eslint -c .eslintrc.js \"./lib/**/*.ts \"./tests/**/*.ts\" --fix --no-error-on-unmatched-pattern",
+    "lint": "(npx semistandard --verbose | npx snazzy) && npx eslint -c .eslintrc.js \"./app/**/*.ts\" \"./tests/**/*.ts\" --no-error-on-unmatched-pattern",
+    "fix": "npx eslint -c .eslintrc.js \"./app/**/*.ts \"./tests/**/*.ts\" --fix --no-error-on-unmatched-pattern",
     "watch": "npm run clean && webpack --watch --env.mode development --config webpack.config.src.js",
     "watch:t": "npm run clean && webpack --watch --env.mode development --config webpack.config.test.js",
     "audit": "npm audit --skip-unused",
@@ -35,7 +35,7 @@
   },
   "nyc": {
     "include": [
-      "lib/**/*.ts"
+      "app/**/*.ts"
     ],
     "extension": [
       ".ts"
