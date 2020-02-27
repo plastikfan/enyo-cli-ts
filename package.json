@@ -1,7 +1,7 @@
 {
-  "name": "unicorns-ts",
+  "name": "enyo-cli-ts",
   "version": "0.0.1",
-  "description": "Starter project for Node-JS Typescript repositories",
+  "description": "Archetypal/prototype client cli application of zenobia-ts",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist && rimraf coverage",
@@ -15,9 +15,9 @@
     "__b:publish": "npm run clean && webpack -d --env.mode production --config webpack.config.src.js",
     "__b:dev:src": "webpack -d --env.mode development --config webpack.config.src.js",
     "__b:dev:test": "webpack -d --env.mode development --config webpack.config.test.js",
-    "exec": "node ./dist/unicorns-bundle.js",
-    "lint": "(npx semistandard --verbose | npx snazzy) && npx eslint -c .eslintrc.js \"./lib/**/*.ts\" \"./tests/**/*.ts\" --no-error-on-unmatched-pattern",
-    "fix": "npx eslint -c .eslintrc.js \"./lib/**/*.ts \"./tests/**/*.ts\" --fix --no-error-on-unmatched-pattern",
+    "exec": "node ./dist/enyo-cli-bundle.js",
+    "lint": "(npx semistandard --verbose | npx snazzy) && npx eslint -c .eslintrc.js \"./app/**/*.ts\" \"./tests/**/*.ts\" --no-error-on-unmatched-pattern",
+    "fix": "npx eslint -c .eslintrc.js \"./app/**/*.ts \"./tests/**/*.ts\" --fix --no-error-on-unmatched-pattern",
     "watch": "npm run clean && webpack --watch --env.mode development --config webpack.config.src.js",
     "watch:t": "npm run clean && webpack --watch --env.mode development --config webpack.config.test.js",
     "audit": "npm audit --skip-unused",
@@ -35,7 +35,7 @@
   },
   "nyc": {
     "include": [
-      "lib/**/*.ts"
+      "app/**/*.ts"
     ],
     "extension": [
       ".ts"
@@ -53,7 +53,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/plastikfan/unicorns-ts.git"
+    "url": "git+https://github.com/plastikfan/enyo-cli-ts.git"
   },
   "keywords": [
     "cli"
@@ -61,9 +61,9 @@
   "author": "plastikfan",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/plastikfan/unicorns-ts/issues"
+    "url": "https://github.com/plastikfan/enyo-cli-ts/issues"
   },
-  "homepage": "https://github.com/plastikfan/unicorns-ts#readme",
+  "homepage": "https://github.com/plastikfan/enyo-cli-ts#readme",
   "dependencies": {
     "@types/node": "^12.12.14"
   },

@@ -7,11 +7,11 @@ module.exports = env => {
   const { ifProduction } = getIfUtils(env);
   const mode = ifProduction('production', 'development');
 
-  console.log(`>>> unicorns Source Code Webpack Environment; [mode: ${env.mode}]`);
+  console.log(`>>> enyo cli Source Code Webpack Environment; [mode: ${env.mode}]`);
 
   return {
     mode: mode,
-    entry: ['./lib/index.ts'],
+    entry: ['./app/index.ts'],
     target: 'node',
     externals: [nodeExternals()],
     module: {
@@ -45,8 +45,8 @@ module.exports = env => {
       ignored: /node_modules/
     },
     output: {
-      filename: 'unicorns-bundle.js',
-      sourceMapFilename: 'unicorns-bundle.js.map',
+      filename: 'enyo-cli-bundle.js',
+      sourceMapFilename: 'enyo-cli-bundle.js.map',
       path: path.join(__dirname, 'dist'),
       libraryTarget: 'commonjs'
     },
