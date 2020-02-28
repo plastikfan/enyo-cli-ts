@@ -1,0 +1,77 @@
+// Commands
+//
+from/to [transit command] !!! NO THIS IS WRONG; ALL PATHS should be source/dest
+  => from/to is use by rename command (transform)
+
+from/to [transform]
+
+source/dest [route command]
+
+Commands =>
+- rename [route], [transform] 
+- reorder [route], [transform]
+- renumber [route], [transform]
+- move [route]
+- copy [route]
+- find [uni]
+- token [uni]
+
+• Commands can have a defined behaviours. Some command implicitly have to exhibit some
+behaviour as part of their implementation; eg- 'search' can be defined as a behaviour,
+and a command such as rename must must perform a search in order to do a rename. Having said
+this, its important to note that the behaviour is dependent on the options present on the command
+line. If the user knows exactly what they want to rename and they specify a set of options that
+clearly define the target (eg path/from/to/source/destination), then no search has to be performed.
+
+// Specifying Option attributes
+//
+
+- Previously, OptionRef was a simply a place-holder to be replaced by the definition. This was
+reduce the config required to define a command. However, there was always the issue of how do
+different commands customise the characteristics of shared Options. Well now what we can do is
+allow each command to specify custom keys on the OptionRef ref. We can still define properties
+on the OptionDef, but these will apply to all commands. Any properties that appear on the OptionRef
+are specific to the hosting Command definition and can also override values on OptionDef.
+
+This will require a change to command-builder.impl.resolveOptions.
+
+
+
+// preprocessor
+//
+
+- This component will be required to intercept the yargs argument parser and be activated prior
+to parse. Those options which are marked as mandatory (demandOption=true), if the user hasn't
+provided these explicitly, then they should be filled by defaults in config. This is the
+responsibility of the preprocessor. It will also display the values of these inferred defaults
+prior to teh command being executed.
+
+// fields can have an alias, and description ... (similar to how options are defined in yargs)
+
+=> find -field "name"
+
+  field name ---+
+               \|/
+=> find -from "name" -to "cherry"
+=> find -field "name" -from "blue" -to "red"
+=> find -field "date" 
+
+
+- operators -eq<string-value> -neq<string-value> -match<regex> -starts-with -ends-with -contains
+see the powershell string operators (https://ss64.com/ps/syntax-compare.html)
+
+- operators apply to --value which is the primary positional argument, eg
+
+find cherry --path ~/logs    [ --value = "cherry" ]
+
+find {name} --path ~/logs    [ --value = name field ]
+
+
+       [from] [to]
+rename cherry plums --field "name" --source <>
+
+
+rename cherry banana --match "ABC-"
+
+
+(would an expression like: Where {$_.name –match 'value'} be of any use?)

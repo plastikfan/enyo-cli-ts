@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<Application name="pez">
+  <Cli>
+    <Commands>
+      <Options type="string">
+        <!-- universal command -->
+        <Option name="output" alias="o"
+          describe="denotes 'from' file or directory path for command operation"
+          default="[CONSOLE]"
+          requiresArg="true">
+        </Option>
+
+        <!-- transform command -->
+        <Option name="from" alias="f"
+          group="Transformative:"
+          describe="denotes the source of a transform"
+          requiresArg="true">
+        </Option>
+
+        <Option name="to" alias="t"
+          group="Transformative:"
+          describe="denotes the result of a transfrom (format). Can use {} to specify field names"
+          requiresArg="true">
+        </Option>
+
+        <!-- route command -->
+        <Option name="source" alias="s"
+          describe="denotes 'source' file or directory path for command operation"
+          requiresArg="true">
+        </Option>
+
+        <Option name="destination" alias="d"
+          describe="denotes 'destination' file or directory path for command operation"
+          requiresArg="true">
+        </Option>
+
+        <!-- uni command -->
+        <Option name="path" alias="p"
+          describe="denotes file or directory path for command operation"
+          requiresArg="true">
+        </Option>
+
+        <!-- log command -->
+        <Option name="loglevel" alias="lv"
+          group="Logging:"
+          describe="Level of logging to be performed"
+          requiresArg="true"
+          choices="!<[]>[debug,error,info,warn]"
+          array="true"
+          default="error,info,warn">
+        </Option>
+
+        <Option name="logfile" alias="lf"
+          group="Logging:"
+          describe="Full path to the logfile name. Can include standard time/date variables inside."
+          requiresArg="true"
+          default="~/enyo/logs/enyo.log.<dd-mmm-yyyy>.log">
+        </Option>
+
+        <!-- query operators case insensitive (https://ss64.com/ps/syntax-compare.html) -->
+        <Option name="equals" alias="eq"
+          group="Query operators:"
+          describe="case-insensitive = value exactly equal"
+          requiresArg="true">
+        </Option>
+        <Option name="not-equals" alias="ne"
+          group="Query operators:"
+          describe="case-insensitive != value not equal"
+          requiresArg="true">
+        </Option>
+
+        <Option name="contains" alias="co"
+          group="Query operators:"
+          describe="case-insensitive = value exactly equal"
+          requiresArg="true">
+        </Option>
+        <Option name="not-contains" alias="nc"
+          group="Query operators:"
+          describe="case-insensitive != value not equal"
+          requiresArg="true">
+        </Option>
+
+        <!-- query operators case insensitive (https://ss64.com/ps/syntax-compare.html) -->
+        <Option name="cequals" alias="ceq"
+          group="Query operators:"
+          describe="case-sensitive = value exactly equal"
+          requiresArg="true">
+        </Option>
+        <Option name="cnot-equals" alias="cne"
+          group="Query operators:"
+          describe="case-sensitive != value not equal"
+          requiresArg="true">
+        </Option>
+
+        <Option name="ccontains" alias="cco"
+          group="Query operators:"
+          describe="case-sensitive = value exactly equal"
+          requiresArg="true">
+        </Option>
+        <Option name="cnot-contains" alias="cnc"
+          group="Query operators:"
+          describe="case-sensitive value not equal"
+          requiresArg="true">
+        </Option>
+
+        <!-- other non case operators -->
+        <Option name="greater-eq" alias="ge"
+          group="Query operators:"
+          describe="case-insensitive >= value greater than or equal"
+          requiresArg="true">
+        </Option>
+        <Option name="greater" alias="gt"
+          group="Query operators:"
+          describe="case-insensitive > value greater than"
+          requiresArg="true">
+        </Option>
+
+        <Option name="less-eq" alias="le"
+          group="Query operators:"
+          describe="case-insensitive <= value less than or equal"
+          requiresArg="true">
+        </Option>
+        <Option name="less" alias="lt"
+          group="Query operators:"
+          describe="case-insensitive < value less than"
+          requiresArg="true">
+        </Option>
+
+        <Option name="like" alias="lk"
+          group="Query operators:"
+          describe="case-insensitive value like (wildcard comparison/glob)"
+          requiresArg="true">
+        </Option>
+        <Option name="not-like" alias="nl"
+          group="Query operators:"
+          describe="case-insensitive value not like (wildcard comparison/glob)"
+          requiresArg="true">
+        </Option>
+
+        <Option name="match" alias="m"
+          group="Query operators:"
+          describe="value match (Regular expression comparison)"
+          requiresArg="true">
+        </Option>
+        <Option name="not-match" alias="nm"
+          group="Query operators:"
+          describe="value not match (Regular expression comparison)"
+          requiresArg="true">
+        </Option>
+        <!-- misc -->
+        <Option name="field" alias="fi"
+          describe="Zenobia file system field name (not OS file system)"
+          requiresArg="true">
+        </Option>
+        <Option name="match" alias="m"
+          describe="Matches to this regular expression"
+          requiresArg="true">
+        </Option>
+        <Option name="by"
+          describe="file system ordering field"
+          requiresArg="true">
+        </Option>
+        <Option name="order" alias="ord"
+          describe="file system ordering field"
+          requiresArg="true"
+          choices="!<[]>[asc,desc]"
+          default="asc">
+        </Option>
+        <Option name="entity" alias="en"
+          describe="Type of file system entity"
+          requiresArg="true"
+          choices="!<[]>[file,dir]">
+        </Option>
+      </Options>
+      <!-- abstract commands -->
+      <Command name="universal-command" abstract="true"
+        describe="Command considered the universal base command">
+        <Options>
+          <OptionRef name="Output"/>
+        </Options>
+      </Command>
+      <Command name="log-command" abstract="true"
+        describe="Command with logging capabilities"
+        inherits="universal-command">
+        <Options>
+          <OptionRef name="loglevel"/>
+          <OptionRef name="logfile"/>
+        </Options>
+      </Command>
+      <Command name="transit-command" abstract="true"
+        describe="transit denotes file system operations which require from/to designation of files/directories">
+        <Options>
+          <OptionRef name="from"/>
+          <OptionRef name="to"/>
+        </Options>
+      </Command>
+      <Command name="route-command" abstract="true"
+        describe="route denotes file system operations which require source/destination designation of files/directories">
+        <Options>
+          <OptionRef name="source"/>
+          <OptionRef name="destination"/>
+        </Options>
+      </Command>
+      <Command name="query-command" abstract="true"
+        describe="query command; defines all the query operators">
+        <Options>
+          <OptionRef name="equals"/>
+          <OptionRef name="not-equals"/>
+          <OptionRef name="contains"/>
+          <OptionRef name="not-contains"/>
+          <OptionRef name="cequals"/>
+          <OptionRef name="not-cequals"/>
+          <OptionRef name="ccontains"/>
+          <OptionRef name="not-ccontains"/>
+          <OptionRef name="greater-eq"/>
+          <OptionRef name="greater"/>
+          <OptionRef name="less-eq"/>
+          <OptionRef name="less"/>
+          <OptionRef name="like"/>
+          <OptionRef name="not-like"/>
+          <OptionRef name="match"/>
+          <OptionRef name="not-match"/>
+        </Options>
+        <OptionGroups>
+          <Conflicts>
+            <!-- These operators make up the 2nd operand of a binary expression, where
+            the first operand would be the "field" specifier, therefore only one of
+            these operators can be present at a time.
+            -->
+            <OptionRef name="equals"/>
+            <OptionRef name="not-equals"/>
+            <OptionRef name="contains"/>
+            <OptionRef name="not-contains"/>
+            <OptionRef name="cequals"/>
+            <OptionRef name="not-cequals"/>
+            <OptionRef name="ccontains"/>
+            <OptionRef name="not-ccontains"/>
+            <OptionRef name="greater-eq"/>
+            <OptionRef name="greater"/>
+            <OptionRef name="less-eq"/>
+            <OptionRef name="less"/>
+            <OptionRef name="like"/>
+            <OptionRef name="not-like"/>
+            <OptionRef name="match"/>
+            <OptionRef name="not-match"/>
+          </Conflicts>
+        </OptionGroups>
+      </Command>
+      <!-- concrete commands -->
+      <Command name="rename"
+        describe="Rename directories command"
+        positional="<to>"
+        inherits="log-command,transform-command">
+        <Options>
+          <OptionRef name="from"/> <!-- virtually mandatory, so can be filled by pre-processor -->
+          <OptionRef name="entity" default="dir"/>
+        </Options>
+      </Command>
+      <Command name="reorder"
+        describe="Reorder contents of a folder by renaing according to a file system field"
+        positional="<path>"
+        inherits="log-command,uni-command,transform-command,query-command">
+        <Options/>
+      </Command>
+      <Command name="renumber"
+        describe="Renumber contents of a folder"
+        positional="<path>"
+        inherits="log-command,uni-command,transform-command,query-command">
+        <Options/>
+      </Command>
+      <Command name="move"
+        describe="Move directories command"
+        positional="<from> <to>"
+        inherits="log-command,route-command,query-command">
+        <Options/>
+      </Command>
+      <Command name="copy"
+        describe="Copy directories command"
+        positional="<from> <to>"
+        inherits="log-command,route-command,query-command">
+        <Options/>
+      </Command>
+      <Command name="find"
+        describe="Find directories command"
+        inherits="log-command,query-command">
+        <Options/>
+      </Command>
+    </Commands>
+  </Cli>
+</Application>
