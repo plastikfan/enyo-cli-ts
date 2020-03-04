@@ -10,6 +10,13 @@
           requiresArg="true">
         </Option>
 
+        <Option name="xml" alias="x"
+          describe="xml application config file"
+          default="./enyo.app.zenobia.xml"
+          normalize="true"
+          requiresArg="true">
+        </Option>
+
         <!-- transform command -->
         <Option name="from" alias="f"
           group="Transformative:"
@@ -152,10 +159,6 @@
           describe="Zenobia file system field name (not OS file system)"
           requiresArg="true">
         </Option>
-        <Option name="match" alias="m"
-          describe="Matches to this regular expression"
-          requiresArg="true">
-        </Option>
         <Option name="by"
           describe="file system ordering field"
           requiresArg="true">
@@ -166,7 +169,7 @@
           choices="!<[]>[asc,desc]"
           default="asc">
         </Option>
-        <Option name="entity" alias="en"
+        <Option name="fs-entity" alias="en"
           describe="Type of file system entity"
           requiresArg="true"
           choices="!<[]>[file,dir]">
@@ -253,7 +256,7 @@
         inherits="log-command,transform-command">
         <Options>
           <OptionRef name="from"/> <!-- virtually mandatory, so can be filled by pre-processor -->
-          <OptionRef name="entity" default="dir"/>
+          <OptionRef name="fsEntity" default="dir"/>
         </Options>
       </Command>
       <Command name="reorder"

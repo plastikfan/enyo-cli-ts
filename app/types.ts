@@ -1,25 +1,5 @@
-import * as fs from 'fs';
-import * as memfs from 'memfs';
-// import * as jaxom from 'jaxom-ts';
-
-// Argh, a lot of these definition don't need to be provided, we can import them from zenobia
-
-export type VirtualFS = typeof fs | memfs.IFs;
-
-export type NullableNode = Node | null;
-
-export interface ISelect {
-  (e: string, doc?: Node, single?: boolean): string | number | boolean | Node | Node[];
-}
-
-export interface ISelectById {
-  (elementName: string, id: string, name: string, parentNode: Node): NullableNode;
-}
-
-export interface ISelectors {
-  select: ISelect;
-  selectById: ISelectById;
-}
+import * as jaxom from 'jaxom-ts';
+import * as zen from 'zenobia-ts';
 
 // ===================================================================== CLI ===
 
@@ -41,32 +21,113 @@ export interface IYargsCli {
   $0: string;
 }
 
-export interface IEnyoCli extends IYargsCli {
-  parseInfo: string;
-  query: string;
-  xml: string;
+export interface IEnyoCliCore {
+  // Universal abstract command:
   //
-  output?: string;
+  output: string;
+  xml: string;
+
+  // Transform abstract command:
+  //
+  from?: string;
+  to?: string;
+
+  // Route abstract command:
+  //
+  source?: string;
+  destination?: string;
+
+  // Uni abstract command (should this be called subject? should definitely be positional):
+  //
+  path?: string;
+
+  // Log abstract command:
+  //
+  loglevel?: string;
+  logfile?: string;
+
+  // Query operators:
+  //
+  equals?: string;
+  notEquals?: string;
+  contains?: string;
+  notContains?: string;
+  cequals?: string;
+  notCequals?: string;
+  ccontains?: string;
+  notCcontains?: string;
+
+  // Relational operators:
+  //
+  greaterEq?: string;
+  greater?: string;
+  lessEq?: string;
+  less?: string;
+
+  // Similarity operators:
+  //
+  like?: string;
+  notLike?: string;
+  match?: string;
+  notMatch?: string;
+
+  // Misc:
+  //
+  field?: string;
+  by?: string;
+  order?: string;
+  fsEntity?: string;
+}
+
+// Note: command classes should be defined in Zenobia; but defined here in enyo for
+// the mean time.
+//
+export interface IEnyoCli extends IYargsCli, IEnyoCliCore {
+
 }
 
 export type ApplicationCommand = 'rename' | 'reorder' | 'renumber' | 'move' | 'copy' | 'find';
 
-export interface ICommandLineInputs {
+/**
+ * @description Represents user inputs into the application after resolution has
+ * occurred (eg, any references to a file, are replaced with the contents of the
+ * file. enyo doesn't yet(?) have any file inputs so ICommandLineInputs is akin to
+ * IEnyoCli), but for other zenobia client applications, this may not be the case.
+ *
+ * @export
+ * @interface ICommandLineInputs
+ * @extends {IEnyoCli}
+ */
+export interface ICommandLineInputs extends IEnyoCliCore {
   applicationCommand: ApplicationCommand;
-
-  output: string;
-  argv: IEnyoCli;
+  xmlContent: string;
 }
 
-export interface IExecutionContext { }
+export interface IExecutionContext {
+  inputs: ICommandLineInputs;
+  //
+  converter: jaxom.IConverter;
+  specSvc: jaxom.ISpecService;
+  xpath: zen.ISelectors;
+  // Actually, this is of no use to the client app. Rather we need a new abstract in zenobia
+  // (possible generic taking the cli type)
+  builderFactory: zen.ICommandBuilderFactory;
+  //
+  parser: DOMParser;
+  applicationConsole: IApplicationConsole;
+  vfs: zen.VirtualFS;
+}
 
-export interface ICommandExecutionResult { }
+export interface ICommandExecutionResult {
+  resultCode: number;
+  error?: string;
+  payload: { [_key: string]: any } [];
+}
 
 export interface ICliCommand {
   exec(executionContext: IExecutionContext): ICommandExecutionResult;
 }
 
-// export interface ICommandBuilderFactory {
-//   (converter: jaxom.IConverter, specSvc: jaxom.ISpecService, parseInfo: jaxom.IParseInfo,
-//     xpath: ISelectors): ICommandBuilder;
-// }
+export interface IPreprocessor {
+
+}
