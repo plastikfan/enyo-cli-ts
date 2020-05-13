@@ -1,5 +1,6 @@
 import * as jaxom from 'jaxom-ts';
-import * as zen from 'zenobia-ts';
+import * as zenobia from 'zenobia-ts';
+import * as xiberia from 'xiberia';
 
 // ===================================================================== CLI ===
 
@@ -14,12 +15,6 @@ export interface IApplicationConsole {
 export const EnyoExecutable = 'enyo';
 
 // ----------------------------------------------------- Command Line Inputs ---
-
-export interface IYargsCli {
-  [x: string]: unknown;
-  _: string[] | string;
-  $0: string;
-}
 
 export interface IEnyoCliCore {
   // Universal abstract command:
@@ -43,8 +38,8 @@ export interface IEnyoCliCore {
 
   // Log abstract command:
   //
-  loglevel?: string;
-  logfile?: string;
+  logLevel?: string;
+  logFile?: string;
 
   // Query operators:
   //
@@ -76,13 +71,13 @@ export interface IEnyoCliCore {
   field?: string;
   by?: string;
   order?: string;
-  fsEntity?: string;
+  fsEntity?: string; // File | Directory
 }
 
 // Note: command classes should be defined in Zenobia; but defined here in enyo for
 // the mean time.
 //
-export interface IEnyoCli extends IYargsCli, IEnyoCliCore {
+export interface IEnyoCli extends zenobia.IYargsArgumentsCli, IEnyoCliCore {
 
 }
 
@@ -108,14 +103,14 @@ export interface IExecutionContext {
   //
   converter: jaxom.IConverter;
   specSvc: jaxom.ISpecService;
-  xpath: zen.ISelectors;
+  xpath: zenobia.ISelectors;
   // Actually, this is of no use to the client app. Rather we need a new abstract in zenobia
   // (possible generic taking the cli type)
-  builderFactory: zen.ICommandBuilderFactory;
+  builderFactory: xiberia.ICommandConverterFactory;
   //
   parser: DOMParser;
   applicationConsole: IApplicationConsole;
-  vfs: zen.VirtualFS;
+  vfs: zenobia.VirtualFS;
 }
 
 export interface ICommandExecutionResult {
